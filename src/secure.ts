@@ -168,7 +168,7 @@ export class SecureStorage extends BaseStorage {
 
   set = async (key: string, rawValue: any) => {
     const nsKey = this.getNamespacedKey(key)
-    const value = JSON.stringify(rawValue, replacer)
+    const value = this.serde.serializer(rawValue)
     const boxBase64 = await this.encrypt(value)
     return await this.rawSet(nsKey, boxBase64)
   }
